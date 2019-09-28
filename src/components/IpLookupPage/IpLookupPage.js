@@ -6,6 +6,7 @@ class IpLookupPage extends Component {
     }
 
     handleChange = (e) => {
+        console.log(e.target.value);
         this.setState({
             ip: e.target.value
         })
@@ -16,6 +17,7 @@ class IpLookupPage extends Component {
         this.setState({
             ip: ''
         })
+        console.log(this.state.ip)
     }
 
     render() {
