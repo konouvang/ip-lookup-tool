@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapReduxStateToProps from '../modules/mapReduxStateToProps';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import API from '../Ip-api/Ip-api';
 
 class IpLookupPage extends Component {
   constructor(props) {
@@ -17,11 +18,11 @@ class IpLookupPage extends Component {
       })
   }
 
-  clearInputs = (event) => {
-    this.setState({
-      enteredIp: '',
-    })
-  }
+  // clearInputs = (event) => {
+  //   this.setState({
+  //     enteredIp: '',
+  //   })
+  // }
 
   handleSubmit = (event) => {
     this.props.dispatch({
@@ -30,7 +31,8 @@ class IpLookupPage extends Component {
         enteredIp: this.state.enteredIp,
       },
     });
-    this.clearInputs();
+    // this.clearInputs();
+    // this.props.history.push('/api');
   }
 
   render() {
@@ -43,9 +45,8 @@ class IpLookupPage extends Component {
             </h5>
           </div>
         </div>
-
-      </div>
-    })
+       </div>
+     })
     return (
       <div className="container">
         <div className="jumbotron jumbotron-ip">
@@ -62,6 +63,7 @@ class IpLookupPage extends Component {
         </div>
         <div className="row">
           {ipArray}
+          <API enteredIp={this.state.enteredIp} />
         </div>
 
       </div>
