@@ -1,36 +1,72 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import mapReduxStateToProps from '../modules/mapReduxStateToProps';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class IpLookupPage extends Component {
-    state = {
-        ip: '',
-    }
+  constructor(props) {
+    super(props);
 
-    handleChange = (e) => {
-        console.log(e.target.value);
-        this.setState({
-            ip: e.target.value
-        })
+    this.state = {
+      enteredIp: '',
     }
+  }
+  handleChange = (event) => {
+      this.setState({
+        enteredIp: event.target.value
+      })
+  }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.setState({
-            ip: ''
-        })
-        console.log(this.state.ip)
-    }
+  clearInputs = (event) => {
+    this.setState({
+      enteredIp: '',
+    })
+  }
 
-    render() {
-        return (
-            <div>
-                <form className="form" onSubmit={this.handleSubmit}>
-                <input type="text" placeholder="ip address" value={this.state.ip} name="batch"onChange={this.handleChange}/>
-                <button>Submit</button>
-        </form>
-            </div>
-        );
-    }
+  handleSubmit = (event) => {
+    this.props.dispatch({
+      type: 'IP',
+      ip: {
+        enteredIp: this.state.enteredIp,
+      },
+    });
+    this.clearInputs();
+  }
 
+  render() {
+    const ipArray = this.props.reduxState.ipReducer.map((ip, index) => {
+      return <div key={index} className="col-md-3">
+        <div className="card">
+          <div className="card-body">
+            <h5>
+              {ip.enteredIp}
+            </h5>
+          </div>
+        </div>
+
+      </div>
+    })
+    return (
+      <div className="container">
+        <div className="jumbotron jumbotron-ip">
+          <h1>IP Lookup</h1>
+        </div>
+        <div className="input-group mb-3">
+          <input
+            value={this.state.enteredIp}
+            className="input-group-text mr-1"
+            placeholder="Enter IP"
+            onChange={this.handleChange}
+            data-name="ip" />
+          <button onClick={this.handleSubmit} className="btn btn-primary">Submit</button>
+        </div>
+        <div className="row">
+          {ipArray}
+        </div>
+
+      </div>
+    );
+  }
 }
 
-export default IpLookupPage;
+export default connect(mapReduxStateToProps)(IpLookupPage);
