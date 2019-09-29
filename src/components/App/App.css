@@ -20,3 +20,15 @@
 .App-link {
   color: #09d3ac;
 }
+
+.jumbotron-ip {
+  background: url('/images/matrix.jpeg');
+  background-position: center 65%;
+  background-size: cover;
+}
+
+body {
+  background: url('/images/ice-age.png');
+  background-color: white;
+
+}
