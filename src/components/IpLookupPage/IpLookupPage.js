@@ -33,35 +33,17 @@ class IpLookupPage extends Component {
       })
   }
 
-  // clearInputs = (event) => {
-  //   this.setState({
-  //     enteredIp: '',
-  //   })
-  // }
-
   handleSubmit = (event) => {
-    // this.props.dispatch({
-    //   type: 'IP',
-    //   ip: {
-    //     enteredIp: this.state.enteredIp,
-    //   },
-    // });
-    // this.clearInputs();
-    // this.props.history.push('/api');
-
-    /// just setting state without reducer
     event.preventDefault();
     this.setState({
       enteredIp: event.target.value
     })
     this.apiCall();
-    console.log(this.state.enteredIp);
   }
 
   apiCall = (event) => {
     const httpString = String('http://ip-api.com/json/' + this.state.enteredIp);
     axios.get(httpString).then((res) => {
-        // JSON.stringify(res.data);
         this.setState({
             as: res.data.as,
             city: res.data.city,
@@ -78,27 +60,12 @@ class IpLookupPage extends Component {
             timezone: res.data.timezone,
             zip: res.data.zip
         });
-        console.log(httpString);
-        console.log(res.data);
-        console.log(this.state.city);
-        // console.log(this.props.enteredIp);
     }).catch((err) => {
         console.log(err);
     });
 };
 
   render() {
-    // const ipArray = this.props.reduxState.ipReducer.map((ip, index) => {
-    //   return <div key={index} className="col-md-3">
-    //     <div className="card">
-    //       <div className="card-body">
-    //         <h5>
-    //           {ip.enteredIp}
-    //         </h5>
-    //       </div>
-    //     </div>
-    //    </div>
-    //  })
     return (
       <div className="container">
         <div className="jumbotron jumbotron-ip">
