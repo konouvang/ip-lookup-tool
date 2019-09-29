@@ -16,13 +16,6 @@ class App extends Component {
         path="/"
         component={IpLookupPage}>
         </Route>
-
-        <Route
-        exact
-        path="/api"
-        component={API}>
-        </Route>
-
       </Router>
     );
   }
