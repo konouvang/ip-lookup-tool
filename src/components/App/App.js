@@ -5,7 +5,6 @@ import {
 } from 'react-router-dom';
 import IpLookupPage from '../IpLookupPage/IpLookupPage'
 import './App.css';
-import API from '../Ip-api/Ip-api';
 
 class App extends Component {
   render(){

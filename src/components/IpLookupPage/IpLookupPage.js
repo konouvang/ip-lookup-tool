@@ -24,7 +24,8 @@ class IpLookupPage extends Component {
       regionName: '',
       status: '',
       timezone: '',
-      zip: ''
+      zip: '',
+      invalid: ''
     }
   }
   handleChange = (event) => {
@@ -39,10 +40,15 @@ class IpLookupPage extends Component {
       enteredIp: event.target.value
     })
     this.apiCall();
+    this.ipDoesNotExist();
   }
 
   apiCall = (event) => {
-    const httpString = String('http://ip-api.com/json/' + this.state.enteredIp);
+    //this ternary is needed because by default, http://ip-api.com/json/ returns your ip server info
+    const httpString = this.state.enteredIp.length ? (
+      String('http://ip-api.com/json/' + this.state.enteredIp)
+    ) : String('http://ip-api.com/json/erroripdoesnotexist');
+    //end of function that was commented
     axios.get(httpString).then((res) => {
         this.setState({
             as: res.data.as,
@@ -63,30 +69,52 @@ class IpLookupPage extends Component {
     }).catch((err) => {
         console.log(err);
     });
+    // this.ipDoesNotExist();
 };
 
+  ipDoesNotExist = (event) => {
+    if (this.state.city === undefined) {
+      this.setState({
+        invalid: 'This IP Address does not exist'
+      })
+    } else {
+      this.setState({
+        invalid: '',
+      })
+    }
+  }
+
+
   render() {
+    const displayIpInfo = this.state.city ? (
+      <>
+      <h2>IP Address: {this.state.query}</h2>
+      <h2>City: {this.state.city}</h2>
+      <h2>Country: {this.state.country}</h2>
+      <h2>Zip: {this.state.zip}</h2>
+      <h2>Timezone: {this.state.timezone}</h2>
+      </>
+    ) : (
+      <>
+      <h2>{this.state.invalid}</h2>
+      </>
+    )
     return (
       <div className="container">
         <div className="jumbotron jumbotron-ip">
           <h1>IP Lookup</h1>
         </div>
         <div className="input-group mb-3">
-          <input
-            value={this.state.enteredIp}
-            className="input-group-text mr-1"
-            placeholder="Enter IP"
-            onChange={this.handleChange}
-            data-name="ip" />
-          <button onClick={this.handleSubmit} className="btn btn-primary">Submit</button>
+            <input
+              value={this.state.enteredIp}
+              className="input-group-text mr-1"
+              placeholder="Enter IP"
+              onChange={this.handleChange}
+              data-name="ip" />
+            <button onClick={this.handleSubmit} className="btn btn-primary">Submit</button>
         </div>
         <div className="container">
-          {/* {ipArray} */}
-          {/* <API enteredIp={this.state.enteredIp} /> */}
-          <h2>City: {this.state.city}</h2>
-          <h2>Country: {this.state.country}</h2>
-          <h2>Zip: {this.state.zip}</h2>
-          <h2>Timezone: {this.state.timezone}</h2>
+          {displayIpInfo}
         </div>
 
       </div>
