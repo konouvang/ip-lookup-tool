@@ -1,6 +1,6 @@
 _duration: 2 days_
 
-## KTJ Inventory
+## IP LOOKUP
 IP Lookup is a tool to find information on IP address. This app provides the city, country, zipcode and timezone fron the entered IP Address.
 
 ## API
